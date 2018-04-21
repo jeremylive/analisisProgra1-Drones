@@ -1,0 +1,21 @@
+
+
+//Construir Grafo....graficar
+(cantEstaciones, cantArcos)
+
+//SISTEMA DE CONTROL
+//Colocar los drones en los nodos del grafo como nos favorezca. Se pone el origen
+(Grafo, cantViajes) 
+//Ponerle destino aleatorio a cada viaje
+(Grafo, listaOrigen, listaDestino, listaNodosPos)
+ 
+//Sacar la cantidad de vias en base al alto y ancho......graficar
+(altoPistas, anchoPistas)
+        
+//Creo matriz con el dijkstra de todas las rutas de los destinos mas cortos por viaje
+(Grafo)
+        
+//probabilista, backtracking o divide y vencerás
+logicaAlgoritmo(Strin[][] matrizViajesCortos, int cantTiempo, int velocidadConstante)
+
+//http://javapiola.blogspot.com/2009/11/tutorial-de-jtextarea-en-java.html

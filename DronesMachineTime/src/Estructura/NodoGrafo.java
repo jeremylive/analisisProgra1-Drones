@@ -1,21 +1,33 @@
 package Estructura;
-//Bibliotecas a usar
-import java.awt.Image;
 
+import java.awt.Image;
+import java.util.ArrayList;
 /**
- *
- * @author live y edgerik
- */
+*
+*█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+*█░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█
+*█░░║║║╠─║─║─║║║║║╠─░░█
+*█░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█
+*█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+*
+**/
 public class NodoGrafo 
 {
     //Variables globales
     final private String id;
+    //Coordenadas de la posicion del nodo
     private int posX;
     private int posY;
     private boolean isProcesado;
+    
+    //Estacion atributos
+    private ArrayList<Drone> droneList;  //no puede ser mayor al total de drones que caben
+    private int cantDronesPistaActualmente = droneList.size();
+        
 
     /**
      * Constructor, Nodo con la imagen del lugar
+     *
      * @param id para el nodo en el hash table
      * @param lugar info del lugar 
      */
@@ -26,41 +38,63 @@ public class NodoGrafo
         this.isProcesado = false;
     }
 
-    
-    public boolean isIsProcesado() {
-        return isProcesado;
-    }
-
-    public void procesar(){
-        isProcesado = true;
-    }
-    public void limpiar(){
-        isProcesado = false;
-    }
-    
-    public void setIsProcesado(boolean isProcesado) {
-        this.isProcesado = isProcesado;
-    }
-
-    //Gets and sets
-    public String getId() {
+    /**
+    *
+    * Gets and sets
+    * 
+    **/
+    public String getId() 
+    {
         return id;
     }
-   public int getPosX() {
+   
+    public int getPosX() 
+    {
         return posX;
     }
-    public void setPosX(int posX) {
+    
+    public void setPosX(int posX) 
+    {
         this.posX = posX;
     }
-    public int getPosY() {
+    
+    public int getPosY() 
+    {
         return posY;
     }
-    public void setPosY(int posY) {
+    
+    public void setPosY(int posY) 
+    {
         this.posY = posY;
     }
 
     /**
+    * Estado del nodo actual, por donde esta pasando el drone, el nodo actual en el que cae!
+    *
+    **/   
+    public boolean isIsProcesado() 
+    {
+        return isProcesado;
+    }
+
+    public void procesar()
+    {
+        this.isProcesado = true;
+    }
+    
+    public void limpiar()
+    {
+        this.isProcesado = false;
+    }
+    
+    public void setIsProcesado(boolean isProcesado) 
+    {
+        this.isProcesado = isProcesado;
+    }
+
+    /**
      * Crea codigo hash para manejo de nodos
+     *
      * @return La posicion a insertar en la tabla
      */
     @Override
@@ -74,6 +108,7 @@ public class NodoGrafo
 
     /**
      * Para comparar con otros nodos
+     *
      * @param obj con el cual comparar
      * @return true si es igual, false si no
      */
@@ -95,4 +130,5 @@ public class NodoGrafo
         return true;
     }
 
+//fin de la estructura del programa calculo de drones.................................................................100%    
 }

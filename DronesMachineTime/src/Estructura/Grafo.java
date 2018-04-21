@@ -1,5 +1,5 @@
 package Estructura;
-//Bibliotecas a usar
+
 import Programa.IConstants;
 import Librerias.Dijkstra;
 import java.awt.Point;
@@ -8,51 +8,72 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 /**
- * Clase Singleton para manejo global de esta
- *
- * @author live y edgerik
- */
-public class Grafo {
+*
+*█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+*█░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█
+*█░░║║║╠─║─║─║║║║║╠─░░█
+*█░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█
+*█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+*
+**/
+public class Grafo 
+{
     //Variables globales
+    private Random random;
+    //Pista
+    private boolean pProcesado;
+    private int cantPista;
+    //Tablero
     private List<NodoGrafo> nodos;
     private List<Conexion> conexiones;
+    //Mapa de rutas posibles 
+    private ArrayList<List<NodoGrafo>> rutasPosiblesGrafo;
     private Dijkstra dijkstra;
-    private Random random;
+
+    //Posion de nodos grafica
     private ArrayList<Point> puntosEnPantalla;
+    
+
     /**
-     * Constructor, defaultf
+     * Constructor.
      */
-    public Grafo() {
+    public Grafo() 
+    {
         this.nodos = new ArrayList<>();
         this.conexiones = new ArrayList<>();
         this.dijkstra = new Dijkstra();
         this.random = new Random();
         this.puntosEnPantalla = new ArrayList<>();
+        this. = new ArrayList<List<NodoGrafo>>();
     }
 
     /**
      * Constructor del grafo
      *
      * @param nodos Lista de nodos
-     * @param conexiones Lista de arcos o bordes
+     * @param conexiones Lista de arcos
      */
-    private Grafo(List<NodoGrafo> nodos, List<Conexion> conexiones) {
+    private Grafo(List<NodoGrafo> nodos, List<Conexion> conexiones) 
+    {
         this.nodos = nodos;
         this.conexiones = conexiones;
         this.dijkstra = new Dijkstra();
         this.random = new Random();
+
         this.puntosEnPantalla = new ArrayList<>();
     }
     
-
     /**
-     * Agregar nodo a la lista
-     *
-     * @param nuevo El nodo a insertar
-     */
-    public void addNodo(NodoGrafo nuevo) 
+    * Gets and Sets
+    **/
+    public List<NodoGrafo> getNodos() 
     {
-        nodos.add(nuevo);
+        return nodos;
+    }
+
+    public List<Conexion> getConexiones() 
+    {
+        return conexiones;
     }
 
     /**
@@ -66,7 +87,38 @@ public class Grafo {
         dijkstra.buscarRutas(nodo);
     }
 
-    
+    /**
+     * Agregar nodo a la lista
+     *
+     * @param nuevo El nodo a insertar
+     */
+    public void addNodo(NodoGrafo nuevo) 
+    {
+        nodos.add(nuevo);
+    }
+
+    /**
+     * Devuelve el nodo en la lista de nodos del grafo
+     *
+     * @param indice para buscar en lista
+     * @return El nodo buscado
+     */
+    public NodoGrafo getNodo(int indice) 
+    {
+        return nodos.get(indice);
+    }
+
+    /**
+     * Saca ruta a destino
+     *
+     * @param destino Nodo al cual llegar
+     * @return lista de nodos
+     */
+    public LinkedList<NodoGrafo> getPathTo(NodoGrafo destino) 
+    {
+        return dijkstra.getRuta(destino);
+    }
+
     /**
      * Devuelve la ruta más cercana del nodo fuente al nodo destino
      *
@@ -88,38 +140,10 @@ public class Grafo {
         }
         return ruta;
     }
-
-    /**
-     * Devuelve el nodo en la lista de nodos del grafo
-     *
-     * @param indice para buscar en lista
-     * @return El nodo buscado
-     */
-    public NodoGrafo getNodo(int indice) 
-    {
-        return nodos.get(indice);
-    }
-
-    /**
-     * Saca la distancia de una coordenada
-     * @param origen nodo inicio
-     * @param destino nodo al cual llegar
-     * @return la distancia de origen a destino
-     */
-    public double getDistancia(double origen, double destino)
-    {
-        double diferencia;
-        
-        if(origen < destino)
-            diferencia = destino - origen;
-        else
-            diferencia = origen - destino;
-        
-        return diferencia;
-    }
     
     /**
      * Dice si la posicion aleatoria dada es valida
+     *
      * @param x en pantalla
      * @param y en pantalla
      * @return true si el punto(x,y) es valido
@@ -142,19 +166,9 @@ public class Grafo {
         return encontrado;
     }
     
-    /**d
-     * Saca ruta a destino
-     *
-     * @param destino Nodo al cual llegar
-     * @return
-     */
-    public LinkedList<NodoGrafo> getPathTo(NodoGrafo destino) 
-    {
-        return dijkstra.getRuta(destino);
-    }
-
-    
     /**
+     * .................
+     *
      * @param idCamino Identificacion de ruta
      * @param fuente Nodo Fuente
      * @param destino Nodo Destino
@@ -183,20 +197,23 @@ public class Grafo {
     }
 
     /**
+     * Saca la distancia de una coordenada
      *
-     * @return Lista de nodos del grafo
+     * @param origen nodo inicio
+     * @param destino nodo al cual llegar
+     * @return la distancia de origen a destino
      */
-    public List<NodoGrafo> getNodos() {
-        return nodos;
+    public double getDistancia(double origen, double destino)
+    {
+        double diferencia;
+        
+        if(origen < destino)
+            diferencia = destino - origen;
+        else
+            diferencia = origen - destino;
+        
+        return diferencia;
     }
 
-    /**
-     *
-     * @return Lista de conexiones, puentes o arcos
-     */
-    public List<Conexion> getConexiones() {
-        return conexiones;
-    }
-
-    
+//fin de la estructura del programa calculo de drones.................................................................100%    
 }

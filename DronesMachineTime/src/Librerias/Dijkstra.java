@@ -1,5 +1,5 @@
 package Librerias;
-//BiBliotecas a usar
+
 import Estructura.Conexion;
 import Estructura.Grafo;
 import Estructura.NodoGrafo;
@@ -12,9 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 /**
- *
- * @author live y edgerik
- */
+*
+*█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+*█░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█
+*█░░║║║╠─║─║─║║║║║╠─░░█
+*█░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█
+*█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+*
+**/
 public class Dijkstra 
 {
     //Variables globales
@@ -24,8 +29,10 @@ public class Dijkstra
     private Set<NodoGrafo> nodosNoListos;
     private Map<NodoGrafo, NodoGrafo> predecesores;
     private Map<NodoGrafo, Double> distancia;
+
     /**
      * Constructor, Le pasa el grafo al dijkstra
+     *
      * @param graph El grafo a manejar
      */
     public Dijkstra(Grafo graph)
@@ -33,6 +40,7 @@ public class Dijkstra
         this.nodos = new ArrayList<>(graph.getNodos());
         this.bordes = new ArrayList<>(graph.getConexiones());
     }
+
     /**
      *  Constructor, Crea un dijkstra para luego darle el grafo y buscar rutas
      */
@@ -41,8 +49,10 @@ public class Dijkstra
         this.nodos = null;
         this.bordes = null;
     }
+    
     /**
      * Busca rutas
+     *
      * @param origen Nodo del cual se empezará 
      */
     public void buscarRutas(NodoGrafo origen) 
@@ -71,6 +81,7 @@ public class Dijkstra
 
     /**
      * Busca en la lista de nodos adyacentes el nodo con la distancia minima
+     *
      * @param nodo Con el cual hacer el recorrido
      */
     private void encontrarDistanciaMinima(NodoGrafo nodo) 
@@ -93,6 +104,7 @@ public class Dijkstra
     }
 
     /**
+     * Obtengo distancia
      * 
      * @param origen Nodo fuente
      * @param objetivo Nodo destino
@@ -111,6 +123,7 @@ public class Dijkstra
     }
 
     /**
+     * Obtengo lista nodos adyacentes
      * 
      * @param nodo Con el cual buscar
      * @return Lista de nodos que estan conectados a este
@@ -130,6 +143,7 @@ public class Dijkstra
 
     /**
      * Busca en nodos no procesados el nodo mas cercano
+     *
      * @param bordes
      * @return El nodo más cercano
      */
@@ -155,6 +169,7 @@ public class Dijkstra
 
     /**
      * Revisa si hay conexion
+     *
      * @param borde Busca la ruta
      * @return true si existe, false si no
      */
@@ -165,6 +180,7 @@ public class Dijkstra
 
     /**
      * Busca la distancia minima
+     *
      * @param destino
      * @return La distancia minima
      */
@@ -183,6 +199,8 @@ public class Dijkstra
     }
 
     /**
+     * Obtengo ruta  mas corta
+     *
      * @param objetivo Al cual se requiere llegar
      * @return Ruta más corta al destino 
      */
@@ -208,4 +226,7 @@ public class Dijkstra
         Collections.reverse(ruta);
         return ruta;
     }
+
+
+//fin de la estructura del programa calculo de drones.................................................................100% 
 }
