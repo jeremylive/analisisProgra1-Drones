@@ -29,28 +29,24 @@ public class DroneStart
         pView.setVisible(true);
         
         
-        
-        //pGlobales.cantEstaciones;
-        
-        
-        //seguimos con el programa.....................................................
-        
-        //1.Crear nodos dentro grafo con sus coordenados 
         pDrone.crearNodoCoordenadas(grafo);
+        pDrone.setCantEstaciones();
         
-        //1.1validacion = cantArcos debe ser menor que la cantEstaciones
-        
-        
-        //1.2.Creo random de arcos por nodo(int). Random del nodoadyasente.
-        
-        //1.2 Calcular la distancia del camino mas corto
-        
-        //2.Crear con el alto y ancho de la pistaGrande, cuantos drones caben(x1).
-        
-        //2.1.Crear drones, origen y destino aleatorio. Insertar al grafo el drone en el nodo origen
-        
-        
+        //1.1 validacion = cantArcos debe ser menor que la cantEstaciones
+        //1.2 Creo random de arcos por nodo(int). Random del nodoadyasente.
+       
+        //2.Crear con el alto y ancho de la pistaGrande, cuantos drones caben(x1).        
         //3.Pesos!!!!/velozDrones!!!172km
+        
+        //Crear la matriz de todos los caminos posibles. del grafo
+        //Conexto trip con camino
+        
+        //merge
+        
+        //
+        //(ArrayList<Trip> trips, ArrayList<Movement> moveGlobal)
+        
+        
         
         
         //2.Calcular la distancion que va

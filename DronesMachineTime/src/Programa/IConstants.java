@@ -1,5 +1,7 @@
 package Programa;
 
+import Estructura.Movement;
+import Estructura.Trip;
 import Interfaz.Circulo;
 import java.util.ArrayList;
 /**
@@ -22,8 +24,8 @@ public class IConstants
     public static int cantArcos = 0;
     public static int velocidadConstante = 0;
     public static int cantDronesPistaMax = 0; //falta algoritmo..
-    private static int cantPista = 0; //calcular cant pista..
-    private static int alturaDrone = 3;
-    private static int anchutaDrone = 2;
-    //
+    public static int cantPista = 0; //calcular cant pista..
+    public static int alturaDrone = 3;
+    public static int anchutaDrone = 2;
+    public static ArrayList<Movement> moveGlobal= new ArrayList<Movement>();
 }

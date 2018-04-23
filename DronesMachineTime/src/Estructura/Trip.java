@@ -1,33 +1,27 @@
 package Estructura;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Trip 
 {
-    //Global variable
-    private ArrayList<Drone> droneList;  //no puede ser mayor al total de drones que caben
-    
-    /**
-     * Constructor.
-     * 
-     */
-    public Trip()
+
+    public int droneAmount;
+    public ArrayList<Integer> tripStations;
+
+    public Trip(ArrayList<Integer> pStations) 
     {
-        this.droneList = new ArrayList<Drone>();
+        droneAmount = 0;
+        tripStations = pStations;
     }
 
-    /**
-     * Gets and Sets 
-     */
-    public ArrayList<Drone> getDroneList() 
+    public void addDrone() 
     {
-        return droneList;
+        droneAmount++;
     }
 
-    public void setDroneList(ArrayList<Drone> droneList) 
+    public boolean isFull() 
     {
-        this.droneList = droneList;
+        return droneAmount == 50;
     }
-    
-    
 }

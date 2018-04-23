@@ -24,6 +24,7 @@ public class Grafo
     private List<Conexion> conexiones;
     private Dijkstra dijkstra;    
     private ArrayList<Point> puntosEnPantalla;
+    private ArrayList<Trip> listTrip;
     /**
      * Constructor.
      */

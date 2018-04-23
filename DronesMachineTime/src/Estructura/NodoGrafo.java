@@ -18,8 +18,7 @@ public class NodoGrafo
     private int posX;
     private int posY;
     private boolean isProcesado;    
-    private ArrayList<TimeInstance> lineaTiempo;
-    private ArrayList<Trip> listTrip;
+   
 
     /**
      * Constructor.
@@ -30,8 +29,6 @@ public class NodoGrafo
         this.posX = 0;
         this.posY = 0;
         this.isProcesado = false;
-        this.lineaTiempo = new ArrayList<TimeInstance>();
-        this.listTrip = new ArrayList<Trip>();
     }
 
     /**

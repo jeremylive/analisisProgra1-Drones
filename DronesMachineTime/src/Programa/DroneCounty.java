@@ -26,6 +26,7 @@ public class DroneCounty
     private JFrame frame;
     private int contador;
 
+    
     /**
     * Constructor.
     **/
@@ -71,40 +72,62 @@ public class DroneCounty
         //
         int totalDrones = pConstants.cantEstaciones;
         //
-        for (int i = 0; i < totalDrones; i++) 
+        for (int i = 0; i <= totalDrones; i++) 
         {    
             //randoms
             int rX = random.nextInt(600);
             int rY = random.nextInt(600);
+            validate(rX, rY);
             
-            //1.rX no puede existir en el grafo y rY no puede ser rGlobal ni estar en grafo
-            if(!pConstants.circulosList.isEmpty())
-            {
-                validarRandomNodosGrafo(rX, rY);  
-            }
-            //no deben ser iguales el x y y
-            if(rY==rX)
-            {
-                rY = random.nextInt(600);
-            }
-           
             //Creo y agrego el circulo a la variable global
             if(isOver(rX, rY))
             {
                 Circulo pCirculo = new Circulo(rX, rY);
                 pConstants.circulosList.add(pCirculo);
+            }else{
+                                //randoms
+                rX = random.nextInt(600);
+                rY = random.nextInt(600);
+                validate(rX, rY);
+
+                //Creo y agrego el circulo a la variable global
+                if(isOver(rX, rY))
+                {
+                    Circulo pCirculo = new Circulo(rX, rY);
+                    pConstants.circulosList.add(pCirculo);
+                }
             }
+            
+            
         }
         //
         for (int i = 0; i < pConstants.circulosList.size(); i++) 
         {
             System.out.println("cordenadas>>"+pConstants.circulosList.get(i).getIndiceX()
                     +" "
-                    +pConstants.circulosList.get(i).getIndiceX());
+                    +pConstants.circulosList.get(i).getIndiceY());
         }
         
     }
 
+    /**
+     * Validate
+     */
+    public void validate(int rX, int rY)
+    {
+        //1.rX no puede existir en el grafo y rY no puede ser rGlobal ni estar en grafo
+        if(!pConstants.circulosList.isEmpty())
+        {
+            validarRandomNodosGrafo(rX, rY);  
+        }
+
+        //no deben ser iguales el x y y
+        if(rY==rX)
+        {
+            rY = random.nextInt(600);
+        }
+    }
+    
     /**
     * Valido que no sean los mismos randoms.
     * 
@@ -157,7 +180,7 @@ public class DroneCounty
      */
     public void crearNodoCoordenadas(Grafo grafo)
     {
-        int totalEst = IConstants.cantEstaciones;
+        int totalEst = (int)IConstants.cantEstaciones;
         contador = 0;
         for (Circulo coordenadas : IConstants.circulosList) {                
             contador += 1;
@@ -178,11 +201,28 @@ public class DroneCounty
         }
     }
     
-    
     /**
      * 
      */
-    public void destinoAleatorio()
+    public void setCantEstaciones()
+    {
+        int anchoPista = IConstants.anchoPistas;
+        int anchoDrone = IConstants.anchutaDrone;
+        IConstants.cantDronesPistaMax = anchoPista/anchoDrone;        
+    }
+    
+    /**
+     * Recorre el grafo y le va dando arcos de nodos aleatorios
+     */
+    public void setArcosRandom()
+    {
+        
+    }
+    
+    /**
+     * Obtengo de un trip el peso total 
+     */
+    public void getPesoTotal()
     {
         
     }
