@@ -10,14 +10,11 @@ package Estructura;
 **/
 public class Conexion  
 {
-    //Variables globales
     private final String id;
-    //
     private final NodoGrafo origen;
     private final NodoGrafo destino;
     private final double distancia;
     
-    //Constructor
     public Conexion(String id, NodoGrafo source, NodoGrafo destination, double weight) 
     {
         this.id = id;

@@ -18,34 +18,26 @@ import java.util.Random;
 **/
 public class Grafo 
 {
-    //Variables globales
     private Random random;
-    //Pista
-    private boolean pProcesado;
-    private int cantPista;
-    //Tablero
     private List<NodoGrafo> nodos;
-    private List<Conexion> conexiones;
-    //Mapa de rutas posibles 
     private ArrayList<List<NodoGrafo>> rutasPosiblesGrafo;
-    private Dijkstra dijkstra;
-
-    //Posion de nodos grafica
+    private List<Conexion> conexiones;
+    private Dijkstra dijkstra;    
     private ArrayList<Point> puntosEnPantalla;
-    
-
+    private ArrayList<Trip> listTrip;
     /**
      * Constructor.
      */
     public Grafo() 
     {
-        this.nodos = new ArrayList<>();
-        this.conexiones = new ArrayList<>();
-        this.dijkstra = new Dijkstra();
         this.random = new Random();
-        this.puntosEnPantalla = new ArrayList<>();
-        this. = new ArrayList<List<NodoGrafo>>();
-    }
+        this.nodos = new ArrayList<NodoGrafo>();
+        this.rutasPosiblesGrafo = new ArrayList<List<NodoGrafo>>();
+        this.conexiones = new ArrayList<>();
+        
+        this.dijkstra = new Dijkstra();
+        this.puntosEnPantalla = new ArrayList<Point>();
+   }
 
     /**
      * Constructor del grafo
@@ -53,13 +45,15 @@ public class Grafo
      * @param nodos Lista de nodos
      * @param conexiones Lista de arcos
      */
-    private Grafo(List<NodoGrafo> nodos, List<Conexion> conexiones) 
+    private Grafo(List<NodoGrafo> nodos, List<Conexion> conexiones, 
+            ArrayList<List<NodoGrafo>> pRutasPosiblesGrafo) 
     {
-        this.nodos = nodos;
-        this.conexiones = conexiones;
-        this.dijkstra = new Dijkstra();
         this.random = new Random();
-
+        this.nodos = nodos;
+        this.rutasPosiblesGrafo = pRutasPosiblesGrafo;
+        this.conexiones = conexiones;
+        
+        this.dijkstra = new Dijkstra();
         this.puntosEnPantalla = new ArrayList<>();
     }
     
@@ -77,9 +71,9 @@ public class Grafo
     }
 
     /**
-     * Tomar las rutas más cercanas a nodos
+     * Take the most near rute to nodos
      *
-     * @param nodo El nodo del cual sacar rutas
+     * @param nodo 
      */
     public void getDijkstraPaths(NodoGrafo nodo) 
     {
@@ -88,9 +82,9 @@ public class Grafo
     }
 
     /**
-     * Agregar nodo a la lista
+     * Add nodo to list
      *
-     * @param nuevo El nodo a insertar
+     * @param nuevo Nodo to going to insert
      */
     public void addNodo(NodoGrafo nuevo) 
     {
@@ -109,10 +103,10 @@ public class Grafo
     }
 
     /**
-     * Saca ruta a destino
+     * Take out the rute to the destiny
      *
-     * @param destino Nodo al cual llegar
-     * @return lista de nodos
+     * @param destino destiny
+     * @return the nodos list
      */
     public LinkedList<NodoGrafo> getPathTo(NodoGrafo destino) 
     {
@@ -120,14 +114,13 @@ public class Grafo
     }
 
     /**
-     * Devuelve la ruta más cercana del nodo fuente al nodo destino
+     * Bring the most neraly ruto to two point, origen and destiny
      *
-     * @param fuente Punto de salida
-     * @param destino Punto de llegada
-     * @param player
-     * @return Lista de nodos por los cuales pasar para llegar (Ruta más corta)
+     * @param fuente origen point
+     * @param destino destiny point
+     * @return The list of the rute most nearly for thougth
      */
-    public LinkedList<NodoGrafo> getPathFromAtoB(NodoGrafo fuente, NodoGrafo destino, boolean player) 
+    public LinkedList<NodoGrafo> getPathFromAtoB(NodoGrafo fuente, NodoGrafo destino) 
     {
         //Saco el mapa de conexiones con el nodo fuente
         getDijkstraPaths(fuente);
@@ -142,37 +135,14 @@ public class Grafo
     }
     
     /**
-     * Dice si la posicion aleatoria dada es valida
-     *
-     * @param x en pantalla
-     * @param y en pantalla
-     * @return true si el punto(x,y) es valido
-     */
-    public boolean inListaPuntos(int x, int y)
-    {
-        boolean encontrado = false;
-        int medida = IConstants.medidaNodo;
-        for (Point punto : puntosEnPantalla) 
-        {
-            if( ( punto.x + medida > x   &&   x >= punto.x - medida))
-                encontrado = true;
-            if( ( punto.y + medida > y  &&    y >= punto.y - medida))
-                encontrado = true;
-        }
-        if(!encontrado)
-        {
-            puntosEnPantalla.add(new Point(x, y));
-        }
-        return encontrado;
-    }
-    
-    /**
-     * .................
+     * Validate the equals of the exist rute.
      *
      * @param idCamino Identificacion de ruta
-     * @param fuente Nodo Fuente
-     * @param destino Nodo Destino
-     * @param distancia Peso de la ruta
+     * @param fuente origen point
+     * @param destino destiny point
+     * @param distancia Peso of the rute
+     * 
+     * @return true: Not exits in the program, false: Exist yet.
      */
     public void addBorde(String idCamino, NodoGrafo fuente, NodoGrafo destino, double distancia) 
     {
@@ -197,11 +167,11 @@ public class Grafo
     }
 
     /**
-     * Saca la distancia de una coordenada
+     * The distance bewteen in to points
      *
-     * @param origen nodo inicio
-     * @param destino nodo al cual llegar
-     * @return la distancia de origen a destino
+     * @param origen Start nodo
+     * @param destino Destiny nodo
+     * @return The distance bewteen in to points
      */
     public double getDistancia(double origen, double destino)
     {
@@ -215,5 +185,32 @@ public class Grafo
         return diferencia;
     }
 
+    
+    /**
+     * Validate if the new posicion is not exits in the program
+     *
+     * @param x point view
+     * @param y point view
+     * @return True: if the point not exits in the program False: if yet.
+     */
+    public boolean inListaPuntos(int x, int y)
+    {
+        boolean encontrado = false;
+        int medida = 0;
+        for (Point punto : puntosEnPantalla) 
+        {
+            if( ( punto.x + medida > x   &&   x >= punto.x - medida))
+                encontrado = true;
+            if( ( punto.y + medida > y  &&    y >= punto.y - medida))
+                encontrado = true;
+        }
+        if(!encontrado)
+        {
+            puntosEnPantalla.add(new Point(x, y));
+        }
+        return encontrado;
+    }
+    
+    
 //fin de la estructura del programa calculo de drones.................................................................100%    
 }
