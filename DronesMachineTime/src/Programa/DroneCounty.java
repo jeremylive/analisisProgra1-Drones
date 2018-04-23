@@ -1,5 +1,7 @@
 package Programa;
 
+import Estructura.Grafo;
+import Estructura.NodoGrafo;
 import Interfaz.Circulo;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -22,6 +24,7 @@ public class DroneCounty
     private boolean bandera1;
     private Random random;
     private JFrame frame;
+    private int contador;
 
     /**
     * Constructor.
@@ -34,7 +37,7 @@ public class DroneCounty
         this.bandera1 = false;
         this.random = new Random();
         this.frame = pFrame;
-    
+        this.contador = 0;
     }
     
     /**
@@ -56,9 +59,6 @@ public class DroneCounty
         convert = JOptionPane.showInputDialog(frame,"Cantidad de pistas(arcos) por estacion?");
         pConstants.cantArcos = Integer.parseInt(convert);
         pConstants.velocidadConstante = 120;
-   
-        
-        
     }
     
     
@@ -150,6 +150,44 @@ public class DroneCounty
         return true;
     }
 
+    /**
+     * Creat nodo and insert to the Grafo
+     * 
+     * @param Gafo
+     */
+    public void crearNodoCoordenadas(Grafo grafo)
+    {
+        int totalEst = IConstants.cantEstaciones;
+        contador = 0;
+        for (Circulo coordenadas : IConstants.circulosList) {                
+            contador += 1;
+            System.out.println(totalEst);
+            System.out.println(contador);
+            if(contador < totalEst){
+                NodoGrafo nodo = new NodoGrafo(contador);
+                nodo.setPosX(coordenadas.getIndiceX());
+                nodo.setPosY(coordenadas.getIndiceY());
+                grafo.addNodo(nodo);
+            }
+        }
+        
+        System.out.println("......."+grafo.getNodos().size());
+        
+        for (int i = 0; i < grafo.getNodos().size(); i++) {
+            System.out.println(grafo.getNodo(i).getPosX() + "-" + grafo.getNodo(i).getPosY());
+        }
+    }
+    
+    
+    /**
+     * 
+     */
+    public void destinoAleatorio()
+    {
+        
+    }
+    
+    
 //    Inserto coordenadas en el grafo
 //    public void setCoordenadasPoints()
 //    {

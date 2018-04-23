@@ -1,6 +1,7 @@
 package Programa;
 
 import Estructura.Grafo;
+import Estructura.NodoGrafo;
 import Interfaz.Ventana;
 import javax.swing.JFrame;
 
@@ -35,8 +36,10 @@ public class DroneStart
         //seguimos con el programa.....................................................
         
         //1.Crear nodos dentro grafo con sus coordenados 
-
+        pDrone.crearNodoCoordenadas(grafo);
+        
         //1.1validacion = cantArcos debe ser menor que la cantEstaciones
+        
         
         //1.2.Creo random de arcos por nodo(int). Random del nodoadyasente.
         

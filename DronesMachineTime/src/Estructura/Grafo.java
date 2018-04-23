@@ -30,7 +30,7 @@ public class Grafo
     public Grafo() 
     {
         this.random = new Random();
-        this.nodos = new ArrayList<>();
+        this.nodos = new ArrayList<NodoGrafo>();
         this.rutasPosiblesGrafo = new ArrayList<List<NodoGrafo>>();
         this.conexiones = new ArrayList<>();
         

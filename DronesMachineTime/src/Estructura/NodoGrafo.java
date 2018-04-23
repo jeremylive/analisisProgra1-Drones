@@ -14,7 +14,7 @@ import java.util.List;
 **/
 public class NodoGrafo 
 {
-    final private String id;
+    private int id;
     private int posX;
     private int posY;
     private boolean isProcesado;    
@@ -24,7 +24,7 @@ public class NodoGrafo
     /**
      * Constructor.
      */
-    public NodoGrafo(String id) 
+    public NodoGrafo(int id) 
     {
         this.id = id;
         this.posX = 0;
@@ -39,7 +39,7 @@ public class NodoGrafo
     * Gets and sets
     * 
     **/
-    public String getId() 
+    public int getId() 
     {
         return id;
     }
