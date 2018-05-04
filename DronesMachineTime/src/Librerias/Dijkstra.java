@@ -110,11 +110,11 @@ public class Dijkstra
      * @param objetivo Nodo destino
      * @return Peso de la conexion
      */
-    private double getDistancia(NodoGrafo origen, NodoGrafo objetivo)
+    public double getDistancia(NodoGrafo origen, NodoGrafo destino)
     {
         for (Conexion edge : bordes) 
         {
-            if (edge.getOrigen().equals(origen) && edge.getDestino().equals(objetivo)) 
+            if (edge.getIDOrigen() == origen.getId() && edge.getIDDestino() == destino.getId())
             {
                 return edge.getDistancia();
             }
@@ -128,14 +128,14 @@ public class Dijkstra
      * @param nodo Con el cual buscar
      * @return Lista de nodos que estan conectados a este
      */
-    private List<NodoGrafo> getAdyacentes(NodoGrafo nodo) 
+    public List<NodoGrafo> getAdyacentes(NodoGrafo nodo) 
     {
         List<NodoGrafo> neighbors = new ArrayList<>();
         for (Conexion borde : bordes) 
         {
-            if (borde.getOrigen().equals(nodo) && !hayConexion(borde.getDestino())) 
+            if (borde.getIDOrigen() == nodo.getId() && !hayConexion(nodos.get(borde.getIDDestino()))) 
             {
-                neighbors.add(borde.getDestino());
+                neighbors.add(nodos.get(borde.getIDDestino()));
             }
         }
         return neighbors;
@@ -229,4 +229,8 @@ public class Dijkstra
 
 
 //fin de la estructura del programa calculo de drones.................................................................100% 
+
+    public void getDistancia() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

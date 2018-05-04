@@ -15,7 +15,7 @@ public class Circulo
     //Variables globales
     private int indiceX = 0;
     private int indiceY = 0;
-    private static final int d = 60;
+    public static int d = 60;
     
     /**
     * Constructor.
