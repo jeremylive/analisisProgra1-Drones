@@ -22,7 +22,7 @@ public class IConstants
     public static int cantViajes = 0;
     public static int cantTiempo = 0;
     public static int cantArcos = 0;
-    public static int velocidadConstante = 0;
+    public static int velocidadConstante = 120;
     public static int cantDronesPistaMax = 0; //falta algoritmo..
     public static int cantPista = 0; //calcular cant pista..
     public static int alturaDrone = 3;

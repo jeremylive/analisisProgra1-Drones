@@ -5,15 +5,17 @@ import Estructura.NodoGrafo;
 import Interfaz.Circulo;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 /**
 *
 *█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+*█░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█
 *█░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█
 *█░░║║║╠─║─║─║║║║║╠─░░█
-*█░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█
 *█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
 *
 **/
@@ -25,6 +27,11 @@ public class DroneCounty
     private Random random;
     private JFrame frame;
     private int contador;
+
+    private Grafo grafo;
+    private ArrayList<ArrayList<Integer>> shortRoutes;
+    private ArrayList<ArrayList<Integer>> durations;
+
 
     
     /**
@@ -39,6 +46,9 @@ public class DroneCounty
         this.random = new Random();
         this.frame = pFrame;
         this.contador = 0;
+
+        this.grafo = new Grafo();
+
     }
     
     /**
@@ -219,23 +229,71 @@ public class DroneCounty
         
     }
     
-    /**
-     * Obtengo de un trip el peso total 
-     */
-    public void getPesoTotal()
-    {
+
+    public void createShortRoutes()
+    {   
         
+        
+        NodoGrafo origen; //a temporal of the nodes of the graph
+        NodoGrafo destino;
+        
+        int cantNodes = this.grafo.getNodos().size(); //size of all nodes in the graph
+        
+        
+        for(int i = 0; i < cantNodes; i++)
+        {
+            origen = grafo.getNodo(i); //get node
+            
+         
+            for(int j = 0; j < cantNodes-1; j++)
+            {
+                if(i!=j){
+                    destino = grafo.getNodo(j);
+                    
+                    LinkedList<NodoGrafo> ruta = grafo.getPathFromAtoB(origen,destino);
+                    
+                    insertarShortRoutes(ruta);
+                    
+                }
+                
+                //get dijstra
+                //insertar la ruta y la distancias.(hacer nuevo metodo)
+            }
+        }
+    
+    
     }
     
-    
-//    Inserto coordenadas en el grafo
-//    public void setCoordenadasPoints()
-//    {
-//        for (int i = 0; i < pConstants.circulosList.size(); i++) {
-//           pConstants.circulosList.get(i).getIndiceX();
-//        }
-//    }
+    public void insertarShortRoutes(LinkedList<NodoGrafo> ruta)
+    {
+        ArrayList <Integer> ids = new ArrayList ();
+        ArrayList <Integer> duraciones = new ArrayList ();
+        
+        for (int i = 0; i < ruta.size() ; i++)
+        {
+            NodoGrafo nodoActual = ruta.get(i);
+                      
+            ids.add(nodoActual.getId());
+            
+        }
+        
+        for (int i = 0; i+1 < ruta.size() ; i++)
+        {
+            NodoGrafo nodoActual = ruta.get(i);
+            NodoGrafo nodoSiguiente = ruta.get(i+1);
+            
+            double distance = grafo.getDistancia(nodoActual,nodoSiguiente);
+            
+            int duration = (int) (((distance/IConstants.velocidadConstante)*60)*60);
 
 
-//fin de la estructura del programa calculo de drones.................................................................100%   
+            
+            duraciones.add(duration);
+            
+        }
+        
+        this.shortRoutes.add(ids);
+        this.durations.add(duraciones);
+        
+    }  
 }

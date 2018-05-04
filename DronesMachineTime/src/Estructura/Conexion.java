@@ -10,16 +10,18 @@ package Estructura;
 **/
 public class Conexion  
 {
-    private final String id;
-    private final NodoGrafo origen;
-    private final NodoGrafo destino;
-    private final double distancia;
+
+    private String id;
+    private int idOrigen;
+    private int idDestino;
+    private double distancia;
     
-    public Conexion(String id, NodoGrafo source, NodoGrafo destination, double weight) 
+    public Conexion(String id, int origin, int destination, double weight) 
+
     {
         this.id = id;
-        this.origen = source;
-        this.destino = destination;
+        this.idOrigen = origin;
+        this.idDestino = destination;
         this.distancia = weight;
     }
     
@@ -29,14 +31,14 @@ public class Conexion
         return id;
     }
     
-    public NodoGrafo getDestino() 
+    public int getIDDestino() 
     {
-        return destino;
+        return idDestino;
     }
     
-    public NodoGrafo getOrigen() 
+    public int getIDOrigen() 
     {
-        return origen;
+        return idOrigen;
     }
     
     public double getDistancia() 
@@ -47,6 +49,6 @@ public class Conexion
     @Override
     public String toString() 
     {
-        return origen.toString() + "--" + distancia + "-->" + destino.toString();
+        return idOrigen + "--" + distancia + "-->" + idDestino;
     }
 }

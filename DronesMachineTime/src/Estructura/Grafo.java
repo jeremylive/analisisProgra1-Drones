@@ -25,6 +25,7 @@ public class Grafo
     private Dijkstra dijkstra;    
     private ArrayList<Point> puntosEnPantalla;
     private ArrayList<Trip> listTrip;
+
     /**
      * Constructor.
      */
@@ -60,6 +61,8 @@ public class Grafo
     /**
     * Gets and Sets
     **/
+
+    
     public List<NodoGrafo> getNodos() 
     {
         return nodos;
@@ -150,7 +153,7 @@ public class Grafo
         boolean existe = false;
         for (Conexion conexion : conexiones) 
         {
-            if( conexion.getOrigen().equals(fuente) && conexion.getDestino().equals(destino))
+            if( conexion.getIDOrigen() == fuente.getId() && conexion.getIDDestino() == destino.getId())
             {
                 existe = true;
                 break;
@@ -158,8 +161,8 @@ public class Grafo
         }
         if(!existe)
         {
-            Conexion ida = new Conexion(idCamino, fuente, destino, distancia);
-            Conexion vuelta = new Conexion(idCamino, destino, fuente, distancia);
+            Conexion ida = new Conexion(idCamino, fuente.getId(), destino.getId(), distancia);
+            Conexion vuelta = new Conexion(idCamino, destino.getId(), fuente.getId(), distancia);
 
             conexiones.add(ida);
             conexiones.add(vuelta);
@@ -173,16 +176,19 @@ public class Grafo
      * @param destino Destiny nodo
      * @return The distance bewteen in to points
      */
-    public double getDistancia(double origen, double destino)
+    public double getDistancia(NodoGrafo origen, NodoGrafo destino)
     {
-        double diferencia;
+        double distance = 0.0;
+        int idOrigin = origen.getId();
+        int idDestination = origen.getId();
         
-        if(origen < destino)
-            diferencia = destino - origen;
-        else
-            diferencia = origen - destino;
-        
-        return diferencia;
+        for(Conexion currentConection : conexiones) {
+            if(currentConection.getIDOrigen() == idOrigin && currentConection.getIDDestino() == idDestination) {
+                distance = currentConection.getDistancia();
+                break;
+            } 
+        }
+        return distance;
     }
 
     
@@ -210,7 +216,5 @@ public class Grafo
         }
         return encontrado;
     }
-    
-    
-//fin de la estructura del programa calculo de drones.................................................................100%    
+     
 }
