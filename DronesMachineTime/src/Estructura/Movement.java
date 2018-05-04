@@ -1,56 +1,67 @@
 package Estructura;
 
-public class Movement 
-{
-    private int originId, destinationId;
-    private int startTime, endTime;
+public class Movement {
 
-    public Movement(int originId, int destinationId, int startTime, int endTime) 
-    {
-        this.originId = originId;
-        this.destinationId = destinationId;
-        this.startTime = startTime;
-        this.endTime = endTime;
+    private int startNodeID, endNodeID, startSecond, endSecond;
+
+    public Movement(int pStartNode, int pEndNode, int pStartSecond, int pEndSecond) {
+        startNodeID = pStartNode;
+        endNodeID = pEndNode;
+        startSecond = pStartSecond;
+        endSecond = pEndSecond;
     }
 
-    public int getOriginId() 
-    {
-        return originId;
+    public int getStartNodeID() {
+        return startNodeID;
     }
 
-    public void setOriginId(int originId) 
-    {
-        this.originId = originId;
+    public int getEndNodeID() {
+        return endNodeID;
     }
 
-    public int getDestinationId() 
-    {
-        return destinationId;
+    public int getStartSecond() {
+        return startSecond;
     }
 
-    public void setDestinationId(int destinationId) 
-    {
-        this.destinationId = destinationId;
+    public int getEndSecond() {
+        return endSecond;
     }
 
-    public int getStartTime() 
-    {
-        return startTime;
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 13 * hash + this.startNodeID;
+        hash = 13 * hash + this.endNodeID;
+        hash = 13 * hash + this.startSecond;
+        hash = 13 * hash + this.endSecond;
+        return hash;
     }
 
-    public void setStartTime(int startTime) 
-    {
-        this.startTime = startTime;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Movement other = (Movement) obj;
+        if (this.startNodeID != other.startNodeID) {
+            return false;
+        }
+        if (this.endNodeID != other.endNodeID) {
+            return false;
+        }
+        if (this.startSecond != other.startSecond) {
+            return false;
+        }
+        if (this.endSecond != other.endSecond) {
+            return false;
+        }
+        return true;
     }
 
-    public int getEndTime() 
-    {
-        return endTime;
-    }
-
-    public void setEndTime(int endTime) 
-    {
-        this.endTime = endTime;
-    }
-    
 }

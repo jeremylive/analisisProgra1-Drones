@@ -4,6 +4,7 @@ import Estructura.Movement;
 import Estructura.Trip;
 import Interfaz.Circulo;
 import java.util.ArrayList;
+
 /**
 *
 *█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
@@ -13,19 +14,20 @@ import java.util.ArrayList;
 *█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
 *
 **/
-public class IConstants 
-{
-    public static ArrayList<Circulo> circulosList = new ArrayList<>();    
-    public static int cantEstaciones = 0;
-    public static int altoPistas = 0;
-    public static int anchoPistas = 0;
-    public static int cantViajes = 0;
-    public static int cantTiempo = 0;
-    public static int cantArcos = 0;
-    public static int velocidadConstante = 120;
-    public static int cantDronesPistaMax = 0; //falta algoritmo..
+public class IConstants {
+
+    public static ArrayList<Circulo> circulosList = new ArrayList<>();
+    public static int cantEstaciones;
+    public static int altoPistas;
+    public static int anchoPistas;
+    public static int cantViajes;
+    public static int SIMULATION_TIME;
+    public static int cantArcos;
+    public static int velocidadConstante;
+    public static int MAX_DRONES_PER_TRIP = 0; //falta algoritmo..
     public static int cantPista = 0; //calcular cant pista..
-    public static int alturaDrone = 3;
-    public static int anchutaDrone = 2;
-    public static ArrayList<Movement> moveGlobal= new ArrayList<Movement>();
+    public static int DRONE_HEIGHT = 3;
+    public static int DRONE_WIDTH = 2;
+    public static int MAX_POSSIBLE_SPACES;
+    public static ArrayList<Movement> moveGlobal = new ArrayList<Movement>();
 }

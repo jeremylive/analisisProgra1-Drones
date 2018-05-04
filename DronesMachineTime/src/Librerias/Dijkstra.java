@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 /**
 *
 *█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
@@ -20,8 +21,8 @@ import java.util.Set;
 *█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
 *
 **/
-public class Dijkstra 
-{
+public class Dijkstra {
+
     //Variables globales
     private List<NodoGrafo> nodos;
     private List<Conexion> bordes;
@@ -35,28 +36,25 @@ public class Dijkstra
      *
      * @param graph El grafo a manejar
      */
-    public Dijkstra(Grafo graph)
-    {
+    public Dijkstra(Grafo graph) {
         this.nodos = new ArrayList<>(graph.getNodos());
         this.bordes = new ArrayList<>(graph.getConexiones());
     }
 
     /**
-     *  Constructor, Crea un dijkstra para luego darle el grafo y buscar rutas
+     * Constructor, Crea un dijkstra para luego darle el grafo y buscar rutas
      */
-    public Dijkstra() 
-    {    
+    public Dijkstra() {
         this.nodos = null;
         this.bordes = null;
     }
-    
+
     /**
      * Busca rutas
      *
-     * @param origen Nodo del cual se empezará 
+     * @param origen Nodo del cual se empezará
      */
-    public void buscarRutas(NodoGrafo origen) 
-    {
+    public void buscarRutas(NodoGrafo origen) {
         nodosListos = new HashSet<>();
         nodosNoListos = new HashSet<>();
         distancia = new HashMap<>();
@@ -67,7 +65,7 @@ public class Dijkstra
         nodosNoListos.add(origen);
         //mientras haya nodos sin procesar
         while (nodosNoListos.size() > 0) {
-            
+
             //Consigo el minimo de los nodos no procesados
             NodoGrafo nodo = getMinimo(nodosNoListos);
             //Se marca listo a;adiendo a lista de procesados 
@@ -84,17 +82,14 @@ public class Dijkstra
      *
      * @param nodo Con el cual hacer el recorrido
      */
-    private void encontrarDistanciaMinima(NodoGrafo nodo) 
-    {
+    private void encontrarDistanciaMinima(NodoGrafo nodo) {
         List<NodoGrafo> adyacentes = (List<NodoGrafo>) getAdyacentes(nodo);
         //Recorro los nodos que lo conectan
-        for (NodoGrafo objetivo : adyacentes)
-        {
+        for (NodoGrafo objetivo : adyacentes) {
             //Si la distancia mas corta del objetivo es mayor a la distancia de
             //mas corta del nodo + la distancia del nodo al objetivo
             //Lo inserto 
-            if (getDistanciaMasCorta(objetivo) > getDistanciaMasCorta(nodo) + getDistancia(nodo, objetivo)) 
-            {
+            if (getDistanciaMasCorta(objetivo) > getDistanciaMasCorta(nodo) + getDistancia(nodo, objetivo)) {
                 distancia.put(objetivo, getDistanciaMasCorta(nodo) + getDistancia(nodo, objetivo));
                 predecesores.put(objetivo, nodo);
                 nodosNoListos.add(objetivo);
@@ -105,17 +100,14 @@ public class Dijkstra
 
     /**
      * Obtengo distancia
-     * 
+     *
      * @param origen Nodo fuente
      * @param objetivo Nodo destino
      * @return Peso de la conexion
      */
-    public double getDistancia(NodoGrafo origen, NodoGrafo destino)
-    {
-        for (Conexion edge : bordes) 
-        {
-            if (edge.getIDOrigen() == origen.getId() && edge.getIDDestino() == destino.getId())
-            {
+    public double getDistancia(NodoGrafo origen, NodoGrafo destino) {
+        for (Conexion edge : bordes) {
+            if (edge.getIDOrigen() == origen.getId() && edge.getIDDestino() == destino.getId()) {
                 return edge.getDistancia();
             }
         }
@@ -124,17 +116,14 @@ public class Dijkstra
 
     /**
      * Obtengo lista nodos adyacentes
-     * 
+     *
      * @param nodo Con el cual buscar
      * @return Lista de nodos que estan conectados a este
      */
-    public List<NodoGrafo> getAdyacentes(NodoGrafo nodo) 
-    {
+    public List<NodoGrafo> getAdyacentes(NodoGrafo nodo) {
         List<NodoGrafo> neighbors = new ArrayList<>();
-        for (Conexion borde : bordes) 
-        {
-            if (borde.getIDOrigen() == nodo.getId() && !hayConexion(nodos.get(borde.getIDDestino()))) 
-            {
+        for (Conexion borde : bordes) {
+            if (borde.getIDOrigen() == nodo.getId() && !hayConexion(nodos.get(borde.getIDDestino()))) {
                 neighbors.add(nodos.get(borde.getIDDestino()));
             }
         }
@@ -147,19 +136,15 @@ public class Dijkstra
      * @param bordes
      * @return El nodo más cercano
      */
-    private NodoGrafo getMinimo(Set<NodoGrafo> bordes) 
-    {
+    private NodoGrafo getMinimo(Set<NodoGrafo> bordes) {
         NodoGrafo minimo = null;
         //Recorro la lista de nodos por procesar
-        for (NodoGrafo borde : bordes) 
-        {
-            if (minimo == null) 
-            {
+        for (NodoGrafo borde : bordes) {
+            if (minimo == null) {
                 minimo = borde;
             } else {
                 //Saco el minimo de esta lista
-                if (getDistanciaMasCorta(borde) < getDistanciaMasCorta(minimo)) 
-                {
+                if (getDistanciaMasCorta(borde) < getDistanciaMasCorta(minimo)) {
                     minimo = borde;
                 }
             }
@@ -173,8 +158,7 @@ public class Dijkstra
      * @param borde Busca la ruta
      * @return true si existe, false si no
      */
-    private boolean hayConexion(NodoGrafo borde) 
-    {
+    private boolean hayConexion(NodoGrafo borde) {
         return nodosListos.contains(borde);
     }
 
@@ -184,40 +168,34 @@ public class Dijkstra
      * @param destino
      * @return La distancia minima
      */
-    private double getDistanciaMasCorta(NodoGrafo destino) 
-    {
+    private double getDistanciaMasCorta(NodoGrafo destino) {
         //Devuelve el peso de la conexion con destino del Mapa recien creado
         Double d = distancia.get(destino);
-        if (d == null) 
-        {
+        if (d == null) {
             //Devuelve el mayor numero posible para que no se tome en cuenta
             return Integer.MAX_VALUE;
-        } else 
-        {
+        } else {
             return d;
         }
     }
 
     /**
-     * Obtengo ruta  mas corta
+     * Obtengo ruta mas corta
      *
      * @param objetivo Al cual se requiere llegar
-     * @return Ruta más corta al destino 
+     * @return Ruta más corta al destino
      */
-    public LinkedList<NodoGrafo> getRuta(NodoGrafo objetivo) 
-    {
+    public LinkedList<NodoGrafo> getRuta(NodoGrafo objetivo) {
         LinkedList<NodoGrafo> ruta = new LinkedList<>();
         NodoGrafo paso = objetivo;
         // Verifico si existe conexion
-        if (predecesores.get(paso) == null) 
-        {
+        if (predecesores.get(paso) == null) {
             return null;
         }
         //Inserto para comenzar a buscar la ruta con este
         ruta.add(paso);
         //Añado los caminos más cortos desde el destino al origen
-        while (predecesores.get(paso) != null) 
-        {
+        while (predecesores.get(paso) != null) {
             paso = predecesores.get(paso);
             //Agrego hasta llegar al origen
             ruta.add(paso);
@@ -227,9 +205,7 @@ public class Dijkstra
         return ruta;
     }
 
-
 //fin de la estructura del programa calculo de drones.................................................................100% 
-
     public void getDistancia() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

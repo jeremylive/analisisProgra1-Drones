@@ -21,18 +21,16 @@ public class Ventana extends JPanel implements MouseListener
 {
     //Variables globales
     private int contador;
-    private IConstants pConstants;
     
     /**
     * Constructor.
     *
     * @param Variables del programa
     **/ 
-    public Ventana(IConstants pGlobales)
+    public Ventana()
     {
         addMouseListener(this);
         this.contador = 0;
-        this.pConstants = pGlobales;
     }
     
     /**
@@ -45,7 +43,7 @@ public class Ventana extends JPanel implements MouseListener
     {
         super.paint(g);
         
-        for(Circulo pCirculo : pConstants.circulosList){
+        for(Circulo pCirculo : IConstants.circulosList){
             pCirculo.draw(g);
            
         }
