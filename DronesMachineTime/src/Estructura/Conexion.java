@@ -10,12 +10,14 @@ package Estructura;
 **/
 public class Conexion  
 {
+
     private String id;
     private int idOrigen;
     private int idDestino;
     private double distancia;
     
     public Conexion(String id, int origin, int destination, double weight) 
+
     {
         this.id = id;
         this.idOrigen = origin;

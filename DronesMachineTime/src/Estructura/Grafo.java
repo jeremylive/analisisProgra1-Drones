@@ -25,8 +25,7 @@ public class Grafo
     private Dijkstra dijkstra;    
     private ArrayList<Point> puntosEnPantalla;
     private ArrayList<Trip> listTrip;
-    
- 
+
     /**
      * Constructor.
      */
@@ -217,9 +216,5 @@ public class Grafo
         }
         return encontrado;
     }
-    
-    
-
-    
-//fin de la estructura del programa calculo de drones.................................................................100%    
+     
 }

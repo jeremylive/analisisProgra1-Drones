@@ -27,9 +27,11 @@ public class DroneCounty
     private Random random;
     private JFrame frame;
     private int contador;
+
     private Grafo grafo;
     private ArrayList<ArrayList<Integer>> shortRoutes;
     private ArrayList<ArrayList<Integer>> durations;
+
 
     
     /**
@@ -44,7 +46,9 @@ public class DroneCounty
         this.random = new Random();
         this.frame = pFrame;
         this.contador = 0;
+
         this.grafo = new Grafo();
+
     }
     
     /**
@@ -225,6 +229,7 @@ public class DroneCounty
         
     }
     
+
     public void createShortRoutes()
     {   
         
@@ -280,6 +285,7 @@ public class DroneCounty
             double distance = grafo.getDistancia(nodoActual,nodoSiguiente);
             
             int duration = (int) (((distance/IConstants.velocidadConstante)*60)*60);
+
 
             
             duraciones.add(duration);
