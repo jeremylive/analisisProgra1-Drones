@@ -29,5 +29,6 @@ public class IConstants {
     public static int DRONE_HEIGHT = 3;
     public static int DRONE_WIDTH = 2;
     public static int MAX_POSSIBLE_SPACES;
-    public static ArrayList<Movement> moveGlobal = new ArrayList<Movement>();
+    public static int WINDOW_WIDTH = 1000;
+    public static int WINDOW_HEIGHT = 700;
 }

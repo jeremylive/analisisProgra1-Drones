@@ -10,11 +10,14 @@ public class BacktrackingSolution extends Solution {
     public void scheduleTrips(ArrayList<Trip> pTripList) {
         trackMovementList = new Hashtable<>();
         tripList = pTripList;
+        totalTime = System.currentTimeMillis();
         if (scheduleATrip(0)) {
             System.out.println("All trips scheduled");
         } else {
             System.out.println("Error while scheduling trips");
         }
+        totalTime = System.currentTimeMillis() - totalTime;
+        printResult();
     }
 
     private boolean scheduleATrip(int pCurrentTrip) {

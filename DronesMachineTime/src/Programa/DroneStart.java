@@ -1,8 +1,9 @@
 package Programa;
 
-import Estructura.Grafo;
 import Interfaz.Ventana;
+import Librerias.*;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,19 +16,50 @@ import javax.swing.JFrame;
  *
  */
 public class DroneStart {
-
+    
     public static void main(String[] args) {
         JFrame pView = new JFrame("PROGRA_DRONES");
         DroneCounty pDrone = new DroneCounty(pView);
+        Solution algorithm;
+        int opcionAlgoritmo;
+        
+        String convert = "";
+        convert = JOptionPane.showInputDialog(pView, "Cantidad de estaciones? (max 30)");
+        IConstants.cantEstaciones = Integer.parseInt(convert);
+        convert = JOptionPane.showInputDialog(pView, "Alto de las pistas?");
+        IConstants.altoPistas = Integer.parseInt(convert);
+        convert = JOptionPane.showInputDialog(pView, "Ancho de las pistas?");
+        IConstants.anchoPistas = Integer.parseInt(convert);
+        convert = JOptionPane.showInputDialog(pView, "Cantidad de viajes a realizar?");
+        IConstants.cantViajes = Integer.parseInt(convert);
+        convert = JOptionPane.showInputDialog(pView, "Cantidad de tiempo?");
+        IConstants.SIMULATION_TIME = Integer.parseInt(convert);
+        convert = JOptionPane.showInputDialog(pView, "Cantidad de pistas(arcos) por estacion?");
+        IConstants.cantArcos = Integer.parseInt(convert);
+        convert = JOptionPane.showInputDialog(pView, "Algoritmo a realizar");
+        opcionAlgoritmo = Integer.parseInt(convert);
+        IConstants.velocidadConstante = 120;
+        
+        pDrone.calculateMaxDronesPerTrip();
         pDrone.crearCordenadasAleatoriasNodos();  // cirList = { [x,y] ..... }
-        Grafo grafo = new Grafo();
-        pView.add(new Ventana());
-        pView.setSize(600, 600);
+        pDrone.crearNodoCoordenadas();
+        pDrone.setArcosRandom();
+        pDrone.createShortRoutes();
+        pDrone.createTrips();
+        
+        pView.add(new Ventana(pDrone.getGrafo()));
+        pView.setSize(IConstants.WINDOW_WIDTH, IConstants.WINDOW_HEIGHT);
         pView.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         pView.setVisible(true);
-
-        pDrone.crearNodoCoordenadas(grafo);
-        pDrone.setCantEstaciones();
+        
+        switch(opcionAlgoritmo) {
+            case 1:algorithm = new DivideAndConquerSolution();
+            break;
+            case 2:algorithm = new BacktrackingSolution();
+            break;
+            default:algorithm = new ProbabilisticSolution();
+        }
+        algorithm.scheduleTrips(pDrone.getTripList());
 
         //1.1 validacion = cantArcos debe ser menor que la cantEstaciones
         //1.2 Creo random de arcos por nodo(int). Random del nodoadyasente.

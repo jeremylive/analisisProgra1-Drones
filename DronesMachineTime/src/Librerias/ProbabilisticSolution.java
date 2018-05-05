@@ -11,6 +11,7 @@ public class ProbabilisticSolution extends Solution {
     public void scheduleTrips(ArrayList<Trip> pTripList) {
         trackMovementList = new Hashtable<>();
         tripList = pTripList;
+        totalTime = System.currentTimeMillis();
         for (Trip currentTrip : pTripList) {
             if (!scheduleATrip(currentTrip)) {
                 System.out.println("Error while scheduling trip");
@@ -18,6 +19,8 @@ public class ProbabilisticSolution extends Solution {
             }
         }
         System.out.println("All trips scheduled");
+        totalTime = System.currentTimeMillis() - totalTime;
+        printResult();
     }
 
     private boolean scheduleATrip(Trip pTrip) {

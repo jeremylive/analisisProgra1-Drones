@@ -4,11 +4,13 @@ import Programa.IConstants;
 import Estructura.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Set;
 
 public abstract class Solution {
 
     protected Hashtable<String, ArrayList<Movement>> trackMovementList;
     protected ArrayList<Trip> tripList;
+    protected long totalTime;
 
     public abstract void scheduleTrips(ArrayList<Trip> pTripList);
 
@@ -134,6 +136,19 @@ public abstract class Solution {
             trackMovementList.get(hashkey).remove(newMovement);
             //Updates the start time for the next movement.
             pStartTime += movementTime;
+        }
+    }
+    
+    protected void printResult() {
+        System.out.println("Total time: " + totalTime + " ms");
+        Set<String> keys = trackMovementList.keySet();
+        for(String hashKey : keys) {
+            System.out.print(hashKey + ": ");
+            ArrayList<Movement> movementList = trackMovementList.get(hashKey);
+            for(Movement currentMovement : movementList) {
+                System.out.print(currentMovement.toString() + ", ");
+            }
+            System.out.println("");
         }
     }
 }

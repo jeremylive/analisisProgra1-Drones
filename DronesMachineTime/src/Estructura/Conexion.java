@@ -11,26 +11,19 @@ package Estructura;
 public class Conexion  
 {
 
-    private String id;
     private int idOrigen;
     private int idDestino;
     private double distancia;
     
-    public Conexion(String id, int origin, int destination, double weight) 
+    public Conexion(int origin, int destination, double weight) 
 
     {
-        this.id = id;
         this.idOrigen = origin;
         this.idDestino = destination;
         this.distancia = weight;
     }
     
     //Gets and sets
-    public String getId() 
-    {
-        return id;
-    }
-    
     public int getIDDestino() 
     {
         return idDestino;

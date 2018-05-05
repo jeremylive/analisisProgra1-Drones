@@ -1,26 +1,23 @@
 package Programa;
 
+import Estructura.Conexion;
 import Estructura.Grafo;
 import Estructura.NodoGrafo;
+import Estructura.Trip;
 import Interfaz.Circulo;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
-*
-*█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
-*█░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█
-*█░░║║║╠─║─║─║║║║║╠─░░█
-*█░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█
-*█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
-*
-**/
-
+ *
+ * █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█ █░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█ █░░║║║╠─║─║─║║║║║╠─░░█
+ * █░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█ █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+ *
+ *
+ */
 public class DroneCounty {
 
     //Variables globales.
@@ -32,13 +29,13 @@ public class DroneCounty {
     private Grafo grafo;
     private ArrayList<ArrayList<Integer>> shortRoutes;
     private ArrayList<ArrayList<Integer>> durations;
+    private ArrayList<Trip> tripList;
 
     /**
      * Constructor.
-    *
+     *
      */
     public DroneCounty(JFrame pFrame) {
-        start();
 
         this.bandera1 = false;
         this.random = new Random();
@@ -46,30 +43,23 @@ public class DroneCounty {
         this.contador = 0;
 
         this.grafo = new Grafo();
+        shortRoutes = new ArrayList<>();
+        durations = new ArrayList<>();
+        tripList = new ArrayList<>();
+    }
 
+    public ArrayList<Trip> getTripList() {
+        return tripList;
+    }
+
+    public Grafo getGrafo() {
+        return grafo;
     }
 
     /**
      * Menu.
-    *
+     *
      */
-    public void start() {
-        String convert = "";
-        convert = JOptionPane.showInputDialog(frame, "Cantidad de estaciones? (max 30)");
-        IConstants.cantEstaciones = Integer.parseInt(convert);
-        convert = JOptionPane.showInputDialog(frame, "Alto de las pistas?");
-        IConstants.altoPistas = Integer.parseInt(convert);
-        convert = JOptionPane.showInputDialog(frame, "Ancho de las pistas?");
-        IConstants.anchoPistas = Integer.parseInt(convert);
-        convert = JOptionPane.showInputDialog(frame, "Cantidad de viajes a realizar?");
-        IConstants.cantViajes = Integer.parseInt(convert);
-        convert = JOptionPane.showInputDialog(frame, "Cantidad de tiempo?");
-        IConstants.SIMULATION_TIME = Integer.parseInt(convert);
-        convert = JOptionPane.showInputDialog(frame, "Cantidad de pistas(arcos) por estacion?");
-        IConstants.cantArcos = Integer.parseInt(convert);
-        IConstants.velocidadConstante = 120;
-    }
-
     /**
      * Le asigno valor de coordenadas aleatorias a los nodos del grafo.
      *
@@ -77,31 +67,19 @@ public class DroneCounty {
      */
     public void crearCordenadasAleatoriasNodos() {
         //
-        int totalDrones = IConstants.cantEstaciones;
-        //
-        for (int i = 0; i <= totalDrones; i++) {
+        int totalDrones = IConstants.cantEstaciones, circlesCreated = 0;
+        while (circlesCreated < totalDrones) {
             //randoms
-            int rX = random.nextInt(600);
-            int rY = random.nextInt(600);
-            validate(rX, rY);
+            int rX = random.nextInt(IConstants.WINDOW_WIDTH - Circulo.d) + Circulo.d/2;
+            int rY = random.nextInt(IConstants.WINDOW_HEIGHT - Circulo.d) + Circulo.d/2;
+            //validate(rX, rY);
 
             //Creo y agrego el circulo a la variable global
-            if (isOver(rX, rY)) {
+            if (isNotOver(rX, rY)) {
                 Circulo pCirculo = new Circulo(rX, rY);
                 IConstants.circulosList.add(pCirculo);
-            } else {
-                //randoms
-                rX = random.nextInt(600);
-                rY = random.nextInt(600);
-                validate(rX, rY);
-
-                //Creo y agrego el circulo a la variable global
-                if (isOver(rX, rY)) {
-                    Circulo pCirculo = new Circulo(rX, rY);
-                    IConstants.circulosList.add(pCirculo);
-                }
+                circlesCreated++;
             }
-
         }
         //
         for (int i = 0; i < IConstants.circulosList.size(); i++) {
@@ -115,37 +93,33 @@ public class DroneCounty {
     /**
      * Validate
      */
-    public void validate(int rX, int rY) {
+    public int[] validate(int rX, int rY) {
+        int[] result = {rX, rY};
         //1.rX no puede existir en el grafo y rY no puede ser rGlobal ni estar en grafo
         if (!IConstants.circulosList.isEmpty()) {
-            validarRandomNodosGrafo(rX, rY);
+            result = validarRandomNodosGrafo(rX, rY);
         }
-
-        //no deben ser iguales el x y y
-        if (rY == rX) {
-            rY = random.nextInt(600);
-        }
+        return result;
     }
 
     /**
      * Valido que no sean los mismos randoms.
      *
      * @param puntos del nodo actual, el que se va dibujar.
-    *
+     * @return
+     *
      */
-    public void validarRandomNodosGrafo(int rX, int rY) {
+    public int[] validarRandomNodosGrafo(int rX, int rY) {
         for (Circulo pCirculo : IConstants.circulosList) {
-            if (rX != pCirculo.getIndiceX()) {
-                if (rY != pCirculo.getIndiceY()) {
-                    bandera1 = true;
-                } else {
-                    rY = random.nextInt(600);
-                }
-            } else {
-                rX = random.nextInt(600);
-                rY = random.nextInt(600);
+            if (rX == pCirculo.getIndiceX()) {
+                rX = random.nextInt(IConstants.WINDOW_WIDTH);
+            }
+            if (rY == pCirculo.getIndiceY()) {
+                rY = random.nextInt(IConstants.WINDOW_HEIGHT);
             }
         }
+        int[] result = {rX, rY};
+        return result;
     }
 
     /**
@@ -156,9 +130,9 @@ public class DroneCounty {
      * aleatorio es valido.
      * @return bandera si es valida entonces las coordenadas no caeran sobre
      * algun otro nodo existente.
-    *
+     *
      */
-    public boolean isOver(int x, int y) {
+    public boolean isNotOver(int x, int y) {
         //
         Rectangle figura = new Rectangle(x - Circulo.d / 2, y - Circulo.d / 2, Circulo.d, Circulo.d);
         //
@@ -173,13 +147,12 @@ public class DroneCounty {
     /**
      * Creat nodo and insert to the Grafo
      *
-     * @param Gafo
+     * @param Grafo
      */
-    public void crearNodoCoordenadas(Grafo grafo) {
+    public void crearNodoCoordenadas() {
         int totalEst = (int) IConstants.cantEstaciones;
         contador = 0;
         for (Circulo coordenadas : IConstants.circulosList) {
-            contador += 1;
             System.out.println(totalEst);
             System.out.println(contador);
             if (contador < totalEst) {
@@ -188,6 +161,7 @@ public class DroneCounty {
                 nodo.setPosY(coordenadas.getIndiceY());
                 grafo.addNodo(nodo);
             }
+            contador += 1;
         }
 
         System.out.println("......." + grafo.getNodos().size());
@@ -200,17 +174,115 @@ public class DroneCounty {
     /**
      *
      */
-    public void setCantEstaciones() {
-        int anchoPista = IConstants.anchoPistas;
-        int anchoDrone = IConstants.DRONE_WIDTH;
-        IConstants.MAX_DRONES_PER_TRIP = anchoPista / anchoDrone;
+    public void calculateMaxDronesPerTrip() {
+        int maxDrones;
+        maxDrones = (IConstants.anchoPistas / IConstants.DRONE_WIDTH);
+        maxDrones *= (IConstants.altoPistas / IConstants.DRONE_HEIGHT);
+        IConstants.MAX_DRONES_PER_TRIP = maxDrones;
     }
 
     /**
      * Recorre el grafo y le va dando arcos de nodos aleatorios
      */
     public void setArcosRandom() {
+        NodoGrafo origin, destination;
+        int selectedDestination, connections, currentConnection = 0;
+        ArrayList<NodoGrafo> nodesNotConnected = getNodesNotConneted();
+        while (!nodesNotConnected.isEmpty() && !(nodesNotConnected.size() == 1)) {
+            origin = nodesNotConnected.get(0);
+            selectedDestination = random.nextInt(nodesNotConnected.size() - 1) + 1;
+            destination = nodesNotConnected.get(selectedDestination);
+            addBorde(origin, destination, calculateDistance(origin, destination));
+            nodesNotConnected = getNodesNotConneted();
+        }
+        ArrayList<ArrayList<Double>> closestNodes;
+        for (NodoGrafo node : grafo.getNodos()) {
+            if (nodesNotConnected.contains(node)) {
+                connections = 0;
+            } else {
+                connections = 1;
+            }
+            currentConnection = 0;
+            closestNodes = getClosestNodes(node);
+            while (connections < IConstants.cantArcos) {
+                int destinationNodeID = closestNodes.get(currentConnection).get(1).intValue();
+                if (addBorde(node, grafo.getNodo(destinationNodeID), closestNodes.get(currentConnection).get(0))) {
+                    connections++;
+                }
+                currentConnection++;
+            }
+        }
+    }
 
+    private ArrayList<NodoGrafo> getNodesNotConneted() {
+        ArrayList<NodoGrafo> result = new ArrayList<>();
+        for (NodoGrafo node : grafo.getNodos()) {
+            if (!grafo.hasConnection(node)) {
+                result.add(node);
+            }
+        }
+        return result;
+    }
+
+    private ArrayList<ArrayList<Double>> getClosestNodes(NodoGrafo node) {
+        ArrayList<ArrayList<Double>> nodeDistanceID = new ArrayList<>();
+        ArrayList<Double> distanceIDPair;
+        for (NodoGrafo currentNode : grafo.getNodos()) {
+            if (!currentNode.equals(node)) {
+                distanceIDPair = new ArrayList<>();
+                distanceIDPair.add(calculateDistance(node, currentNode));
+                distanceIDPair.add((new Double(currentNode.getId())));
+                nodeDistanceID.add(distanceIDPair);
+            }
+        }
+        //Sort Array
+        ArrayList<ArrayList<Double>> sortedNodeList = new ArrayList<>();
+        Double lowestDistance, lowestNodeID;
+        while (!nodeDistanceID.isEmpty()) {
+            lowestDistance = Double.MAX_VALUE;
+            lowestNodeID = 0.0;
+            for (ArrayList<Double> currentPair : nodeDistanceID) {
+                if (currentPair.get(0) < lowestDistance) {
+                    lowestDistance = currentPair.get(0);
+                    lowestNodeID = currentPair.get(1);
+                }
+            }
+            distanceIDPair = new ArrayList<>();
+            distanceIDPair.add(lowestDistance);
+            distanceIDPair.add(lowestNodeID);
+            sortedNodeList.add(distanceIDPair);
+            nodeDistanceID.remove(distanceIDPair);
+        }
+        return sortedNodeList;
+    }
+
+    private double calculateDistance(NodoGrafo origin, NodoGrafo destination) {
+        int xSum = Math.abs(origin.getPosX() - destination.getPosX());
+        int ySum = Math.abs(origin.getPosY() - destination.getPosY());
+        return xSum + ySum;
+    }
+
+    /**
+     * Validate the equals of the exist rute.
+     *
+     * @param idCamino Identificacion de ruta
+     * @param fuente origen point
+     * @param destino destiny point
+     * @param distancia Peso of the rute
+     *
+     * @return true: Not exits in the program, false: Exist yet.
+     */
+    private boolean addBorde(NodoGrafo fuente, NodoGrafo destino, double distancia) {
+        for (Conexion conexion : grafo.getConexiones()) {
+            if (conexion.getIDOrigen() == fuente.getId() && conexion.getIDDestino() == destino.getId()) {
+                return false;
+            }
+        }
+        Conexion ida = new Conexion(fuente.getId(), destino.getId(), distancia);
+        Conexion vuelta = new Conexion(destino.getId(), fuente.getId(), distancia);
+        grafo.getConexiones().add(ida);
+        grafo.getConexiones().add(vuelta);
+        return true;
     }
 
     public void createShortRoutes() {
@@ -223,7 +295,7 @@ public class DroneCounty {
         for (int i = 0; i < cantNodes; i++) {
             origen = grafo.getNodo(i); //get node
 
-            for (int j = 0; j < cantNodes - 1; j++) {
+            for (int j = 0; j < cantNodes; j++) {
                 if (i != j) {
                     destino = grafo.getNodo(j);
 
@@ -246,9 +318,7 @@ public class DroneCounty {
 
         for (int i = 0; i < ruta.size(); i++) {
             NodoGrafo nodoActual = ruta.get(i);
-
             ids.add(nodoActual.getId());
-
         }
 
         for (int i = 0; i + 1 < ruta.size(); i++) {
@@ -267,4 +337,12 @@ public class DroneCounty {
         this.durations.add(duraciones);
 
     }
+
+    public void createTrips() {
+        for (int currentTrip = 0; currentTrip < (IConstants.cantViajes / IConstants.MAX_DRONES_PER_TRIP); currentTrip++) {
+            int selectedOption = random.nextInt(shortRoutes.size());
+            tripList.add(new Trip(shortRoutes.get(selectedOption), durations.get(selectedOption)));
+        }
+    }
+
 }

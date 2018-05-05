@@ -64,4 +64,9 @@ public class Movement {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "[" + startSecond + "-" + endSecond + ']';
+    }
+
 }

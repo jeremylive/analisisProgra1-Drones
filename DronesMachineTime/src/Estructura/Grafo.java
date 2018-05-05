@@ -61,7 +61,7 @@ public class Grafo
     /**
     * Gets and Sets
     **/
-
+    
     
     public List<NodoGrafo> getNodos() 
     {
@@ -136,38 +136,6 @@ public class Grafo
         }
         return ruta;
     }
-    
-    /**
-     * Validate the equals of the exist rute.
-     *
-     * @param idCamino Identificacion de ruta
-     * @param fuente origen point
-     * @param destino destiny point
-     * @param distancia Peso of the rute
-     * 
-     * @return true: Not exits in the program, false: Exist yet.
-     */
-    public void addBorde(String idCamino, NodoGrafo fuente, NodoGrafo destino, double distancia) 
-    {
-        
-        boolean existe = false;
-        for (Conexion conexion : conexiones) 
-        {
-            if( conexion.getIDOrigen() == fuente.getId() && conexion.getIDDestino() == destino.getId())
-            {
-                existe = true;
-                break;
-            }
-        }
-        if(!existe)
-        {
-            Conexion ida = new Conexion(idCamino, fuente.getId(), destino.getId(), distancia);
-            Conexion vuelta = new Conexion(idCamino, destino.getId(), fuente.getId(), distancia);
-
-            conexiones.add(ida);
-            conexiones.add(vuelta);
-        }
-    }
 
     /**
      * The distance bewteen in to points
@@ -217,4 +185,13 @@ public class Grafo
         return encontrado;
     }
      
+    public boolean hasConnection(NodoGrafo node) {
+        for(Conexion connection : conexiones) {
+            if(connection.getIDOrigen() == node.getId() || connection.getIDDestino() == node.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }
