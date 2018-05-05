@@ -8,18 +8,24 @@ import java.util.Random;
 public class ProbabilisticSolution extends Solution {
 
     @Override
-    public void scheduleTrips(ArrayList<Trip> pTripList) {
-        trackMovementList = new Hashtable<>();
+    public void scheduleTrips(ArrayList<Trip> pTripList, ArrayList<String> pHashKeys) {
+        hashKeys = pHashKeys;
         tripList = pTripList;
+        initializeMovementList();
+        boolean success = true;
         totalTime = System.currentTimeMillis();
         for (Trip currentTrip : pTripList) {
             if (!scheduleATrip(currentTrip)) {
-                System.out.println("Error while scheduling trip");
-                return;
+                success = false;
+                break;
             }
         }
-        System.out.println("All trips scheduled");
         totalTime = System.currentTimeMillis() - totalTime;
+        if (success) {
+            System.out.println("All trips scheduled");
+        } else {
+            System.out.println("Error while scheduling trip");
+        }
         printResult();
     }
 

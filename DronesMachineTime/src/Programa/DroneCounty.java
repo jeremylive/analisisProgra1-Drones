@@ -70,8 +70,8 @@ public class DroneCounty {
         int totalDrones = IConstants.cantEstaciones, circlesCreated = 0;
         while (circlesCreated < totalDrones) {
             //randoms
-            int rX = random.nextInt(IConstants.WINDOW_WIDTH - Circulo.d) + Circulo.d/2;
-            int rY = random.nextInt(IConstants.WINDOW_HEIGHT - Circulo.d) + Circulo.d/2;
+            int rX = random.nextInt(IConstants.WINDOW_WIDTH - Circulo.d) + Circulo.d / 2;
+            int rY = random.nextInt(IConstants.WINDOW_HEIGHT - Circulo.d) + Circulo.d / 2;
             //validate(rX, rY);
 
             //Creo y agrego el circulo a la variable global
@@ -324,9 +324,7 @@ public class DroneCounty {
         for (int i = 0; i + 1 < ruta.size(); i++) {
             NodoGrafo nodoActual = ruta.get(i);
             NodoGrafo nodoSiguiente = ruta.get(i + 1);
-
             double distance = grafo.getDistancia(nodoActual, nodoSiguiente);
-
             int duration = (int) (((distance / IConstants.velocidadConstante) * 60) * 60);
 
             duraciones.add(duration);
@@ -339,9 +337,35 @@ public class DroneCounty {
     }
 
     public void createTrips() {
-        for (int currentTrip = 0; currentTrip < (IConstants.cantViajes / IConstants.MAX_DRONES_PER_TRIP); currentTrip++) {
+        int tripTotal = IConstants.cantViajes / IConstants.MAX_DRONES_PER_TRIP;
+        System.out.println("Total de viajes:"+tripTotal);
+        for (int currentTrip = 0; currentTrip < tripTotal; currentTrip++) {
             int selectedOption = random.nextInt(shortRoutes.size());
             tripList.add(new Trip(shortRoutes.get(selectedOption), durations.get(selectedOption)));
+        }
+    }
+
+    public ArrayList<String> createHashKeys() {
+        ArrayList<String> keys = new ArrayList<>();
+        for (NodoGrafo origin : grafo.getNodos()) {
+            for (NodoGrafo destination : grafo.getNodos()) {
+                keys.add(origin.getId() + "-" + destination.getId());
+            }
+        }
+        return keys;
+    }
+
+    public void printTrips() {
+        for (Trip t : tripList) {
+            System.out.print("Estaciones: ");
+            for (Integer i : t.getTripStations()) {
+                System.out.print(i + ",");
+            }
+            System.out.print("Duraciones: ");
+            for (Integer j : t.getTripDurations()) {
+                System.out.print(j + ",");
+            }
+            System.out.println("");
         }
     }
 

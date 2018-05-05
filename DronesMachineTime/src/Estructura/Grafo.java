@@ -148,7 +148,7 @@ public class Grafo
     {
         double distance = 0.0;
         int idOrigin = origen.getId();
-        int idDestination = origen.getId();
+        int idDestination = destino.getId();
         
         for(Conexion currentConection : conexiones) {
             if(currentConection.getIDOrigen() == idOrigin && currentConection.getIDDestino() == idDestination) {
@@ -194,4 +194,9 @@ public class Grafo
         return false;
     }
     
+    public void printConnections() {
+        for (Conexion c : conexiones) {
+            System.out.println("O "+c.getIDOrigen()+" D "+c.getIDDestino()+" Dist "+c.getDistancia());
+        }
+    }
 }

@@ -7,9 +7,10 @@ import java.util.Hashtable;
 public class BacktrackingSolution extends Solution {
 
     @Override
-    public void scheduleTrips(ArrayList<Trip> pTripList) {
-        trackMovementList = new Hashtable<>();
+    public void scheduleTrips(ArrayList<Trip> pTripList,ArrayList<String> pHashKeys) {
+        hashKeys = pHashKeys;
         tripList = pTripList;
+        initializeMovementList();
         totalTime = System.currentTimeMillis();
         if (scheduleATrip(0)) {
             System.out.println("All trips scheduled");

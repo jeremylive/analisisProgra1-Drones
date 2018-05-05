@@ -38,7 +38,6 @@ public class DroneStart {
         IConstants.cantArcos = Integer.parseInt(convert);
         convert = JOptionPane.showInputDialog(pView, "Algoritmo a realizar");
         opcionAlgoritmo = Integer.parseInt(convert);
-        IConstants.velocidadConstante = 120;
         
         pDrone.calculateMaxDronesPerTrip();
         pDrone.crearCordenadasAleatoriasNodos();  // cirList = { [x,y] ..... }
@@ -46,6 +45,7 @@ public class DroneStart {
         pDrone.setArcosRandom();
         pDrone.createShortRoutes();
         pDrone.createTrips();
+        //pDrone.printTrips();
         
         pView.add(new Ventana(pDrone.getGrafo()));
         pView.setSize(IConstants.WINDOW_WIDTH, IConstants.WINDOW_HEIGHT);
@@ -59,7 +59,7 @@ public class DroneStart {
             break;
             default:algorithm = new ProbabilisticSolution();
         }
-        algorithm.scheduleTrips(pDrone.getTripList());
+        algorithm.scheduleTrips(pDrone.getTripList(),pDrone.createHashKeys());
 
         //1.1 validacion = cantArcos debe ser menor que la cantEstaciones
         //1.2 Creo random de arcos por nodo(int). Random del nodoadyasente.

@@ -10,10 +10,18 @@ public abstract class Solution {
 
     protected Hashtable<String, ArrayList<Movement>> trackMovementList;
     protected ArrayList<Trip> tripList;
+    protected ArrayList<String> hashKeys;
     protected long totalTime;
 
-    public abstract void scheduleTrips(ArrayList<Trip> pTripList);
+    public abstract void scheduleTrips(ArrayList<Trip> pTripList,ArrayList<String> pHashKeys);
 
+    protected void initializeMovementList() {
+        trackMovementList = new Hashtable<>();
+        for(String key : hashKeys) {
+            trackMovementList.put(key, new ArrayList<Movement>());
+        }
+    }
+    
     /**
      * *
      * Gets up to N spaces where a Trip can be placed. The spaces are
@@ -79,7 +87,7 @@ public abstract class Solution {
         ArrayList<Movement> trackMovements = trackMovementList.get(hashKey);
         for (Movement currentMovement : trackMovements) {
             if (currentMovement.getEndSecond() > pStartTime) {
-                if (currentMovement.getStartSecond() < pStartTime + pMovementTime) {
+                if (currentMovement.getStartSecond() < (pStartTime + pMovementTime)) {
                     return false;
                 }
             }
