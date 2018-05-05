@@ -1,7 +1,8 @@
-package Librerias;
+package Libraries;
 
-import Programa.IConstants;
-import Estructura.*;
+import Logic.Trip;
+import Logic.Movement;
+import Program.IConstants;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Set;
@@ -16,12 +17,12 @@ public abstract class Solution {
     public abstract void scheduleTrips(ArrayList<Trip> pTripList,ArrayList<String> pHashKeys);
 
     protected void initializeMovementList() {
-        trackMovementList = new Hashtable<>();
-        for(String key : hashKeys) {
-            trackMovementList.put(key, new ArrayList<Movement>());
+        trackMovementList = new Hashtable<>(); //+1
+        for(String key : hashKeys) {//+1(+3
+            trackMovementList.put(key, new ArrayList<Movement>());//+1
         }
     }
-    
+    //1+1+(3+1)*N = 2+4N
     /**
      * *
      * Gets up to N spaces where a Trip can be placed. The spaces are
@@ -31,16 +32,16 @@ public abstract class Solution {
      * @return An ArrayList containing the start second of the possible spaces.
      */
     protected ArrayList<Integer> getPossibleSpaces(Trip pTrip) {
-        ArrayList<Integer> possibleSpaces = new ArrayList<>();
-        int currentSecond = 0;
-        while (possibleSpaces.size() < IConstants.MAX_POSSIBLE_SPACES && currentSecond < IConstants.SIMULATION_TIME) {
-            if (isTripPossible(pTrip, currentSecond)) {
-                possibleSpaces.add(currentSecond);
+        ArrayList<Integer> possibleSpaces = new ArrayList<>();//1
+        int currentSecond = 0;//+1
+        while (possibleSpaces.size() < IConstants.MAX_POSSIBLE_SPACES && currentSecond < IConstants.SIMULATION_TIME) {//(+2
+            if (isTripPossible(pTrip, currentSecond)) {//2+5+28N´6N^2
+                possibleSpaces.add(currentSecond);//+1
             }
-            currentSecond++;
-        }
-        return possibleSpaces;
-    }
+            currentSecond++;//+1
+        }//)*N
+        return possibleSpaces; //1
+    }//+1+1(+2+2+5+28N+6N^2+1+1)*N +1= 3+11N+28N^2+6N^3
 
     /**
      * *
@@ -51,21 +52,21 @@ public abstract class Solution {
      * @return true if possible, false if not.
      */
     protected boolean isTripPossible(Trip pTrip, int pStartTime) {
-        int startNode, endNode, movementTime;
-        for (int currentMovement = 0; currentMovement < pTrip.getTripDurations().size(); currentMovement++) {
+        int startNode, endNode, movementTime;//+3
+        for (int currentMovement = 0; currentMovement < pTrip.getTripDurations().size(); currentMovement++) {//+1(+3
             //Gets the movement's data.
-            startNode = pTrip.getTripStations().get(currentMovement);
-            endNode = pTrip.getTripStations().get(currentMovement + 1);
-            movementTime = pTrip.getTripDurations().get(currentMovement);
+            startNode = pTrip.getTripStations().get(currentMovement);//+2
+            endNode = pTrip.getTripStations().get(currentMovement + 1);//+3
+            movementTime = pTrip.getTripDurations().get(currentMovement);//+2
             //Checks if the movement can be placed.
-            if (!isMovementPossible(startNode, endNode, movementTime, pStartTime)) {
-                return false;
+            if (!isMovementPossible(startNode, endNode, movementTime, pStartTime)) {//5+9+6N
+                return false;//+1
             }
             //Updates the start time for the next movement.
-            pStartTime += movementTime;
+            pStartTime += movementTime;//+2
         }
-        return true;
-    }
+        return true;//+1
+    }//3+1(+3+2+3+2+5+9+6N)*n + 1 = 5+28N +6N^2
 
     /**
      * *
@@ -79,21 +80,21 @@ public abstract class Solution {
      */
     protected boolean isMovementPossible(int pStartNode, int pEndNode, int pMovementTime, int pStartTime) {
         //Checks that the end time is not higher than the simulation's maximum.
-        if (pStartTime + pMovementTime > IConstants.SIMULATION_TIME) {
-            return false;
+        if (pStartTime + pMovementTime > IConstants.SIMULATION_TIME) {//+2
+            return false;//+1
         }
         //Checks for conflicting movements in the same track.
-        String hashKey = pStartNode + "-" + pEndNode;
-        ArrayList<Movement> trackMovements = trackMovementList.get(hashKey);
-        for (Movement currentMovement : trackMovements) {
-            if (currentMovement.getEndSecond() > pStartTime) {
-                if (currentMovement.getStartSecond() < (pStartTime + pMovementTime)) {
-                    return false;
+        String hashKey = pStartNode + "-" + pEndNode;//+3
+        ArrayList<Movement> trackMovements = trackMovementList.get(hashKey);//+2
+        for (Movement currentMovement : trackMovements) {//1+(+3
+            if (currentMovement.getEndSecond() > pStartTime) {//+1
+                if (currentMovement.getStartSecond() < (pStartTime + pMovementTime)) {//+2
+                    return false;//+1
                 }
             }
-        }
-        return true;
-    }
+        }//)*N
+        return true;//+1
+    }//2+1+3+2+1+(3+1+2)*N+1= 9 + 6N
 
     /**
      * *

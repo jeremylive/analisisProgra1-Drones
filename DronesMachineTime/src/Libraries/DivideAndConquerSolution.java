@@ -1,6 +1,6 @@
-package Librerias;
+package Libraries;
 
-import Estructura.Trip;
+import Logic.Trip;
 import java.util.ArrayList;
 
 public class DivideAndConquerSolution extends Solution {

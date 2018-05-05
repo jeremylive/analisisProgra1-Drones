@@ -1,6 +1,5 @@
-package Estructura;
+package Logic;
 
-import Programa.IConstants;
 import java.util.ArrayList;
 
 public class Trip {

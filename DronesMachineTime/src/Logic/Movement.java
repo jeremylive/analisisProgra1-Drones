@@ -1,4 +1,4 @@
-package Estructura;
+package Logic;
 
 public class Movement {
 
