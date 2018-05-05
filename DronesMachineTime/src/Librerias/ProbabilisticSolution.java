@@ -36,7 +36,7 @@ public class ProbabilisticSolution extends Solution {
             return false;
         }
         int chosenSpace = numberGenerator.nextInt(possibleSpaces.size());
-        insertTrip(pTrip, chosenSpace);
+        insertTrip(pTrip, possibleSpaces.get(chosenSpace));
         return true;
     }
 }
